@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { connect } from "react-redux";
 
-function App() {
+import Card from "./components/Card";
+
+const App = (props) => {
+  const { increment, decrement, value } = props;
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Card>
+        {value}
+        <button onClick={increment}>Add 1</button>
+        <button onClick={decrement}>Minus 1</button>
+      </Card>
     </div>
   );
-}
+};
 
-export default App;
+const mapStateToProps = (state) => ({
+  value: state.app.value,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  increment: () => dispatch({ type: "INCREMENT" }),
+  decrement: () => dispatch({ type: "DECREMENT" }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
